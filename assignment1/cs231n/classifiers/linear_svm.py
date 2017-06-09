@@ -128,9 +128,9 @@ def svm_loss_vectorized(W, X, y, reg):
   coeff_matrix[margins > 0] = 1
   # zero out for the actual class values since we don't want to account for them
   coeff_matrix[range(num_train), list(y)] = 0
-  # a sum over j != y_i
+  # sum over X for when j != y[i]
   coeff_matrix[range(num_train), list(y)] = -np.sum(coeff_matrix, axis=1)
-  
+
   dW = (X.T).dot(coeff_matrix)
   dW = dW/num_train + reg*W
   #############################################################################
