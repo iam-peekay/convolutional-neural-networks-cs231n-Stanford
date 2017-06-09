@@ -79,7 +79,28 @@ def softmax_loss_vectorized(W, X, y, reg):
   # here, it is easy to run into numeric instability. Don't forget the        #
   # regularization!                                                           #
   #############################################################################
-  pass
+  
+  num_classes = W.shape[1]
+  num_train = X.shape[0]
+  
+  scores = X.dot(W)
+  scores -= np.max(scores, axis=1).reshape(-1, 1)
+  probability = np.exp(scores) / np.sum(np.exp(scores), axis=1).reshape(-1, 1)
+  loss = -np.sum(np.log(probability[range(num_train), list(y)]))
+  
+  # Get gradient by 
+  dW = probability.copy()
+  dW[range(num_train), list(y)] += -1
+  dW = (X.T).dot(dW)
+  
+  # Compute average
+  loss /= num_train
+  dW /= num_train
+  
+  # Regularization
+  loss += 0.5 * reg * np.sum(W * W)
+  dW += reg*W
+  
   #############################################################################
   #                          END OF YOUR CODE                                 #
   #############################################################################
