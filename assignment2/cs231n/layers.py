@@ -228,7 +228,10 @@ def batchnorm_backward(dout, cache):
     # TODO: Implement the backward pass for batch normalization. Store the    #
     # results in the dx, dgamma, and dbeta variables.                         #
     ###########################################################################
-    pass
+    gamma, x, mu_b, sigma_squared_b, eps, x_hat = cache
+    N, D = x.shape
+    x_adj = x.reshape(N, -1)
+    dx = dout.dot(w.T).reshape(*x.shape)
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
@@ -534,7 +537,7 @@ def svm_loss(x, y):
     - dx: Gradient of the loss with respect to x
     """
     N = x.shape[0]
-    correct_class_scores = x[np.arange(N), y]
+    correct_class_scores = x[np.arange(N), y] # gives the scores for the for the correct class (N, )
     margins = np.maximum(0, x - correct_class_scores[:, np.newaxis] + 1.0)
     margins[np.arange(N), y] = 0
     loss = np.sum(margins) / N
