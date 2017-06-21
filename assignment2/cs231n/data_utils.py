@@ -1,10 +1,12 @@
 from __future__ import print_function
 
+import scipy.misc
 from builtins import range
 from six.moves import cPickle as pickle
 import numpy as np
 import os
-from scipy.misc import imread
+import matplotlib.image as mpimg
+# from scipy.misc import imread
 import platform
 
 def load_pickle(f):
@@ -138,7 +140,7 @@ def load_tiny_imagenet(path, dtype=np.float32, subtract_mean=True):
                         np.ones(num_images, dtype=np.int64)
         for j, img_file in enumerate(filenames):
             img_file = os.path.join(path, 'train', wnid, 'images', img_file)
-            img = imread(img_file)
+            img = mpimg(img_file)
             if img.ndim == 2:
         ## grayscale file
                 img.shape = (64, 64, 1)
@@ -163,7 +165,7 @@ def load_tiny_imagenet(path, dtype=np.float32, subtract_mean=True):
         X_val = np.zeros((num_val, 3, 64, 64), dtype=dtype)
         for i, img_file in enumerate(img_files):
             img_file = os.path.join(path, 'val', 'images', img_file)
-            img = imread(img_file)
+            img = mpimg(img_file)
             if img.ndim == 2:
                 img.shape = (64, 64, 1)
             X_val[i] = img.transpose(2, 0, 1)
@@ -175,7 +177,7 @@ def load_tiny_imagenet(path, dtype=np.float32, subtract_mean=True):
     X_test = np.zeros((len(img_files), 3, 64, 64), dtype=dtype)
     for i, img_file in enumerate(img_files):
         img_file = os.path.join(path, 'test', 'images', img_file)
-        img = imread(img_file)
+        img = mpimg(img_file)
         if img.ndim == 2:
             img.shape = (64, 64, 1)
         X_test[i] = img.transpose(2, 0, 1)
