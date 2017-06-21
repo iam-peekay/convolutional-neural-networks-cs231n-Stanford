@@ -1,6 +1,7 @@
 from __future__ import print_function
 from builtins import range
-import past
+from past.builtins.misc import (apply, chr, cmp, execfile, intern, oct,
+                                raw_input, reload, unichr, unicode, xrange)
 from past.builtins import xrange
 
 import numpy as np
